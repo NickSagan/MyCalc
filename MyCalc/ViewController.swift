@@ -9,23 +9,35 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var typingEnded: Bool = true
+    private var typingEnded: Bool = true
+    
+    private var resultsLabelValue: Double {
+        get {
+            guard let number = Double(resultsLabel.text!)
+            else {
+                fatalError("Can't convert resultsLabel.text into Double")
+            }
+            return number
+        }
+        set {
+            resultsLabel.text = String(newValue)
+        }
+    }
     
     @IBOutlet weak var resultsLabel: UILabel!
     @IBAction func calcPressed(_ sender: UIButton) {
         
         typingEnded = true
-        let number = Double(resultsLabel.text!)!
         
         if let calcMethod = sender.currentTitle {
             if calcMethod == "+/-" {
-                resultsLabel.text = String(number * -1)
+                resultsLabelValue *= -1
             }
             else if calcMethod == "%" {
-                resultsLabel.text = String(number / 100)
+                resultsLabelValue /= 100
             }
             else if calcMethod == "AC" {
-                resultsLabel.text = "0"
+                resultsLabelValue = 0
             }
         }
     }
@@ -37,6 +49,15 @@ class ViewController: UIViewController {
                 resultsLabel.text = numButtonPressed
                 typingEnded = false
             } else {
+                
+                if numButtonPressed == "."{
+                    let currentDisplay = resultsLabelValue
+                    let isInt =  floor(currentDisplay) == currentDisplay
+                    if !isInt{
+                        return
+                    }
+                }
+                
                 resultsLabel.text! += numButtonPressed
             }
             
