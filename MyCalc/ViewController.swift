@@ -8,7 +8,13 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var resultsLabel: UILabel!
+    @IBAction func calcPressed(_ sender: UIButton) {
+    }
+    
+    @IBAction func numPressed(_ sender: UIButton) {
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
