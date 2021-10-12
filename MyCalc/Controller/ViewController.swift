@@ -29,9 +29,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var resultsLabel: UILabel!
     @IBAction func calcPressed(_ sender: UIButton) {
         
+        calcLogic.value = resultsLabelValue
         typingEnded = true
         if let calcMethod = sender.currentTitle {
-            resultsLabelValue = calcLogic.calculate(button: calcMethod, value: resultsLabelValue)
+            resultsLabelValue = calcLogic.calculate(button: calcMethod)
         }
     }
     
