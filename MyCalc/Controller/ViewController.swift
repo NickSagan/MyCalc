@@ -26,13 +26,19 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        resultsLabelValue = 0
+    }
+    
     @IBOutlet weak var resultsLabel: UILabel!
     @IBAction func calcPressed(_ sender: UIButton) {
         
         calcLogic.value = resultsLabelValue
         typingEnded = true
         if let calcMethod = sender.currentTitle {
-            resultsLabelValue = calcLogic.calculate(button: calcMethod)
+            if let result = calcLogic.calculate(button: calcMethod){
+                resultsLabelValue = result
+            }
         }
     }
     
@@ -44,22 +50,17 @@ class ViewController: UIViewController {
                 typingEnded = false
             } else {
                 
-                if numButtonPressed == "."{
+                if numButtonPressed == "." {
                     let currentDisplay = resultsLabelValue
-                    let isInt =  floor(currentDisplay) == currentDisplay
+                    let isInt = floor(currentDisplay) == currentDisplay
                     if !isInt{
                         return
                     }
                 }
-                
                 resultsLabel.text! += numButtonPressed
             }
             
         }
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
     }
 }
 
