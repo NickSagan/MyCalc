@@ -11,6 +11,8 @@ class ViewController: UIViewController {
     
     private var typingEnded: Bool = true
     
+    var calcLogic = CalculatorLogic()
+    
     private var resultsLabelValue: Double {
         get {
             guard let number = Double(resultsLabel.text!)
@@ -28,17 +30,8 @@ class ViewController: UIViewController {
     @IBAction func calcPressed(_ sender: UIButton) {
         
         typingEnded = true
-        
         if let calcMethod = sender.currentTitle {
-            if calcMethod == "+/-" {
-                resultsLabelValue *= -1
-            }
-            else if calcMethod == "%" {
-                resultsLabelValue /= 100
-            }
-            else if calcMethod == "AC" {
-                resultsLabelValue = 0
-            }
+            resultsLabelValue = calcLogic.calculate(button: calcMethod, value: resultsLabelValue)
         }
     }
     
@@ -67,8 +60,5 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
     }
-
-    
-    
 }
 
