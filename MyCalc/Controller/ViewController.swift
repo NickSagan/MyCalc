@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     private var typingEnded: Bool = true
     private var calcLogic = CalculatorLogic()
     
+    // We use this var to get value from UILabel.text and also to update UILabel after this value was changed
     private var resultsLabelValue: Double {
         get {
             guard let number = Double(resultsLabel.text!)
@@ -21,12 +22,7 @@ class ViewController: UIViewController {
             return number
         }
         set {
-            let isNotFloating = floor(newValue) == newValue
-            if isNotFloating {
-                resultsLabel.text = String(Int(newValue))
-            } else {
-                resultsLabel.text = String(newValue)
-            }
+            resultsLabel.text = String(format: "%g", newValue)
         }
     }
     
@@ -34,6 +30,8 @@ class ViewController: UIViewController {
     @IBAction func calcPressed(_ sender: UIButton) {
         
         // What should happen when pressed: + - = * / AC %
+        
+        // Send current value from UILabel to Calculator Logic
         calcLogic.value = resultsLabelValue
         typingEnded = true
         if let calcMethod = sender.currentTitle {
