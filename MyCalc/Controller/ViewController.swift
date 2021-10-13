@@ -10,8 +10,7 @@ import UIKit
 class ViewController: UIViewController {
     
     private var typingEnded: Bool = true
-    
-    var calcLogic = CalculatorLogic()
+    private var calcLogic = CalculatorLogic()
     
     private var resultsLabelValue: Double {
         get {
@@ -22,17 +21,19 @@ class ViewController: UIViewController {
             return number
         }
         set {
-            resultsLabel.text = String(newValue)
+            let isNotFloating = floor(newValue) == newValue
+            if isNotFloating {
+                resultsLabel.text = String(Int(newValue))
+            } else {
+                resultsLabel.text = String(newValue)
+            }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        resultsLabelValue = 0
     }
     
     @IBOutlet weak var resultsLabel: UILabel!
     @IBAction func calcPressed(_ sender: UIButton) {
         
+        // What should happen when pressed: + - = * / AC %
         calcLogic.value = resultsLabelValue
         typingEnded = true
         if let calcMethod = sender.currentTitle {
@@ -44,19 +45,33 @@ class ViewController: UIViewController {
     
     @IBAction func numPressed(_ sender: UIButton) {
         
+        // What should happen when numbers or "." pressed
+        
         if let numButtonPressed = sender.currentTitle {
             if typingEnded {
-                resultsLabel.text = numButtonPressed
-                typingEnded = false
-            } else {
                 
                 if numButtonPressed == "." {
-                    let currentDisplay = resultsLabelValue
-                    let isInt = floor(currentDisplay) == currentDisplay
-                    if !isInt{
+                    if resultsLabel.text!.contains("."){
+                        return
+                    }
+                    
+                    if resultsLabel.text! == "0"{
+                        resultsLabel.text! = "0."
+                        typingEnded = false
                         return
                     }
                 }
+                
+                resultsLabel.text = numButtonPressed
+                typingEnded = false
+                
+            } else {
+                if numButtonPressed == "." {
+                    if resultsLabel.text!.contains("."){
+                        return
+                    }
+                }
+                
                 resultsLabel.text! += numButtonPressed
             }
             
